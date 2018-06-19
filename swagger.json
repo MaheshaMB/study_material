@@ -1,0 +1,392 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "v1",
+    "title" : "IAT Restful API by Spring Boot, Jersey, Swagger",
+    "contact" : {
+      "name" : "mboraiah@yodlee.com"
+    }
+  },
+  "basePath" : "/iat/api",
+  "tags" : [ {
+    "name" : "ErrorCode base ServiceRequest API"
+  }, {
+    "name" : "Authentication Service API"
+  }, {
+    "name" : "ServiceRequest API"
+  } ],
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/auth/login" : {
+      "post" : {
+        "tags" : [ "Authentication Service API" ],
+        "summary" : "Get authorize inputed user detail",
+        "description" : "",
+        "operationId" : "getLoginAuthentication",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Mandatory",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/AuthenticationRequest"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Resource found"
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "unauthorized request"
+          },
+          "403" : {
+            "description" : "Forbidden request"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          }
+        }
+      }
+    },
+    "/auth/validation" : {
+      "post" : {
+        "tags" : [ "Authentication Service API" ],
+        "summary" : "Get authenticate inputed token",
+        "description" : "",
+        "operationId" : "getValidateAuthentication",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Mandatory",
+          "required" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Resource found"
+          },
+          "400" : {
+            "description" : "Bad request"
+          },
+          "401" : {
+            "description" : "unauthorized request"
+          },
+          "403" : {
+            "description" : "Forbidden request"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          }
+        }
+      }
+    },
+    "/sr" : {
+      "get" : {
+        "tags" : [ "ServiceRequest API" ],
+        "summary" : "Get all open SRs detail",
+        "description" : "",
+        "operationId" : "getAllSRAnalysis",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Resource found"
+          },
+          "401" : {
+            "description" : "unauthorized request"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          }
+        }
+      }
+    },
+    "/sr/{srnum}" : {
+      "get" : {
+        "tags" : [ "ServiceRequest API" ],
+        "summary" : "Get Analysed SR detail for inputed SR",
+        "description" : "",
+        "operationId" : "getSRDetailswithaction",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "srnum",
+          "in" : "path",
+          "description" : "Mandatory",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "action",
+          "in" : "query",
+          "description" : "Mandatory",
+          "required" : false,
+          "type" : "string",
+          "enum" : [ "SR_DETAIL", "SIMILARISSUE", "ANALYSIS", "USER_AGG_ACC", "OUT_COME" ]
+        }, {
+          "name" : "itemid",
+          "in" : "query",
+          "description" : "optional",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "itemtype",
+          "in" : "query",
+          "description" : "optional",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "cobrandid",
+          "in" : "query",
+          "description" : "optional",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Resource found"
+          },
+          "401" : {
+            "description" : "unauthorized request"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          }
+        }
+      }
+    },
+    "/sr/{srnum}/outcome" : {
+      "put" : {
+        "tags" : [ "ServiceRequest API" ],
+        "summary" : "Updating SR in YCC by SR number",
+        "description" : "",
+        "operationId" : "saveSROutcome",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "srnum",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/SRComment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Resource found"
+          },
+          "401" : {
+            "description" : "unauthorized request"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          }
+        }
+      }
+    },
+    "/sr/{srnum}/useraggaccount" : {
+      "put" : {
+        "tags" : [ "ServiceRequest API" ],
+        "summary" : "Provide item detail to start analysis",
+        "description" : "",
+        "operationId" : "saveUserAggAccount",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "srnum",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/UserAggAccount"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Resource found"
+          },
+          "401" : {
+            "description" : "unauthorized request"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          }
+        }
+      }
+    },
+    "/sr/{srnum}/{errcode}" : {
+      "get" : {
+        "tags" : [ "ErrorCode base ServiceRequest API" ],
+        "summary" : "Get Analysed SR detail for inputed error code",
+        "description" : "",
+        "operationId" : "getSRDetailswithaction",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "srnum",
+          "in" : "path",
+          "description" : "Mandatory",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "errcode",
+          "in" : "path",
+          "description" : "Mandatory",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "itemid",
+          "in" : "query",
+          "description" : "optional",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        }, {
+          "name" : "itemtype",
+          "in" : "query",
+          "description" : "optional",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "cobrandid",
+          "in" : "query",
+          "description" : "optional",
+          "required" : false,
+          "type" : "integer",
+          "format" : "int32"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Resource found"
+          },
+          "401" : {
+            "description" : "unauthorized request"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Task" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "description" : {
+          "type" : "string"
+        }
+      }
+    },
+    "UserAggAccount" : {
+      "type" : "object",
+      "properties" : {
+        "memsiteaccid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "sitename" : {
+          "type" : "string"
+        },
+        "agent" : {
+          "type" : "string"
+        },
+        "cacheitemid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "suminfoid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "errorcode" : {
+          "type" : "string"
+        },
+        "siteid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "lastupdateattempt" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "numSuccRefresh" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "lastSuccRefresh" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "memitemid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "isdisable" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "nextupdate" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "inactiveind" : {
+          "type" : "boolean",
+          "default" : false
+        },
+        "memaccid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "memid" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "memidcreatedon" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      }
+    },
+    "AuthenticationRequest" : {
+      "type" : "object",
+      "properties" : {
+        "username" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SRComment" : {
+      "type" : "object",
+      "properties" : {
+        "comment" : {
+          "type" : "string"
+        },
+        "sritemId" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    }
+  }
+}
